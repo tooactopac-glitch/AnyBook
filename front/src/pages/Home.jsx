@@ -1,11 +1,461 @@
 import { useState, useEffect } from "react";
 import Navbar from '../components/Navbar'
+import LeftSideBar from "../components/LeftSideBar";
+import RightSideBar from "../components/RightSideBar";
+import Feed from "../components/Feed";
 import { GrClose } from "react-icons/gr";
 
 
 export default function Home() {
     const [isOpenRightSideBare, setIsOpenRightSideBare] = useState(false);
     const [isOpenLeftSideBare, setIsOpenLeftSideBare] = useState(false);
+    const [posts,setPosts] = useState([
+  {
+    "post": {
+      "id": "post-001",
+      "timestamp": "2025-11-10T15:57:00+01:00",
+      "user": {
+        "name": "Ahmed Benali",
+        "profilePic": "https://randomuser.me/api/portraits/men/32.jpg",
+        "location": "Sahara, Morocco"
+      },
+      "content": {
+        "text": "Just arrived in the heart of the Sahara! The golden dunes at sunset are unreal. Living the dream in <strong>#Morocco</strong> desert",
+        "image": {
+          "src": "https://tse4.mm.bing.net/th/id/OIP.acE2ILyQQx43utXRB0h_PQHaD_?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+          "alt": "Sahara Desert Sunset"
+        }
+      },
+      "engagement": {
+        "reactions": [
+          { "type": "Like", "count": null },
+          { "type": "Heart", "count": null },
+          { "type": "Wow", "count": null }
+        ],
+        "totalReactions": 127,
+        "comments": 24,
+        "shares": 8
+      },
+      "actions": ["Like", "Comment", "Share"]
+    }
+  },
+  {
+    "post": {
+      "id": "post-002",
+      "timestamp": "2025-11-10T15:30:00+01:00",
+      "user": {
+        "name": "Fatima Zahra",
+        "profilePic": "https://randomuser.me/api/portraits/women/44.jpg",
+        "location": "Marrakech, Morocco"
+      },
+      "content": {
+        "text": "Jemaa el-Fnaa at night is pure magic! Lanterns, music, and the smell of fresh tagine. <strong>#Marrakech</strong> lantern",
+        "image": {
+          "src": "https://th.bing.com/th/id/R.200fd9c0efeabfa2ac41005729320bef?rik=7z6zWoDfNwh%2bcg&riu=http%3a%2f%2finspirationseek.com%2fwp-content%2fuploads%2f2016%2f02%2fMarrakech-City-Market-Pictures.jpg&ehk=rcNTktlJhHKQ7bNETTKaa4TK2tN5jvkM1gdPVePDds4%3d&risl=&pid=ImgRaw&r=0",
+          "alt": "Jemaa el-Fnaa Night Market"
+        }
+      },
+      "engagement": {
+        "reactions": [
+          { "type": "Like", "count": null },
+          { "type": "Love", "count": null }
+        ],
+        "totalReactions": 89,
+        "comments": 12,
+        "shares": 3
+      },
+      "actions": ["Like", "Comment", "Share"]
+    }
+  },
+  {
+    "post": {
+      "id": "post-003",
+      "timestamp": "2025-11-10T14:15:00+01:00",
+      "user": {
+        "name": "Youssef El Amrani",
+        "profilePic": "https://randomuser.me/api/portraits/men/68.jpg",
+        "location": "Chefchaouen, Morocco"
+      },
+      "content": {
+        "text": "Lost in the blue streets of Chefchaouen. Every wall tells a story. <strong>#BluePearl</strong> blue heart",
+        "image": {
+          "src": "https://tse4.mm.bing.net/th/id/OIP.H6ju8ob-V5IkGG1PFHNV_wHaE8?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+          "alt": "Blue Streets of Chefchaouen"
+        }
+      },
+      "engagement": {
+        "reactions": [
+          { "type": "Wow", "count": null },
+          { "type": "Heart", "count": null }
+        ],
+        "totalReactions": 203,
+        "comments": 38,
+        "shares": 11
+      },
+      "actions": ["Like", "Comment", "Share"]
+    }
+  },
+  {
+    "post": {
+      "id": "post-004",
+      "timestamp": "2025-11-10T13:45:00+01:00",
+      "user": {
+        "name": "Amina Khalil",
+        "profilePic": "https://randomuser.me/api/portraits/women/22.jpg",
+        "location": "Casablanca, Morocco"
+      },
+      "content": {
+        "text": "Golden hour at Hassan II Mosque. The ocean breeze and intricate details are breathtaking. <strong>#Casablanca</strong> mosque",
+        "image": {
+          "src": "https://tse1.mm.bing.net/th/id/OIP.jIWNlDcZ78vjDCux06H83gHaE8?cb=ucfimg2ucfimg=1&w=900&h=600&rs=1&pid=ImgDetMain&o=7&rm=3",
+          "alt": "Hassan II Mosque at Sunset"
+        }
+      },
+      "engagement": {
+        "reactions": [
+          { "type": "Wow", "count": null }
+        ],
+        "totalReactions": 156,
+        "comments": 19,
+        "shares": 7
+      },
+      "actions": ["Like", "Comment", "Share"]
+    }
+  },
+  {
+    "post": {
+      "id": "post-005",
+      "timestamp": "2025-11-10T12:20:00+01:00",
+      "user": {
+        "name": "Omar Benjelloun",
+        "profilePic": "https://randomuser.me/api/portraits/men/12.jpg",
+        "location": "Fes, Morocco"
+      },
+      "content": {
+        "text": "Exploring the ancient medina of Fes. Got lost in the souks and found the best leather shop! <strong>#Fes</strong> bag",
+        "image": {
+          "src": "https://tse3.mm.bing.net/th/id/OIP.-YBO4sPWQgL1XPhZ8r7UAAHaFi?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+          "alt": "Fes Medina Market"
+        }
+      },
+      "engagement": {
+        "reactions": [
+          { "type": "Like", "count": null },
+          { "type": "Heart", "count": null }
+        ],
+        "totalReactions": 94,
+        "comments": 15,
+        "shares": 5
+      },
+      "actions": ["Like", "Comment", "Share"]
+    }
+  },
+  {
+    "post": {
+      "id": "post-006",
+      "timestamp": "2025-11-10T11:10:00+01:00",
+      "user": {
+        "name": "Laila Cherkaoui",
+        "profilePic": "https://randomuser.me/api/portraits/women/33.jpg",
+        "location": "Rabat, Morocco"
+      },
+      "content": {
+        "text": "Morning coffee with a view of the Atlantic. Rabat's coastline never gets old. <strong>#Rabat</strong> coffee",
+        "image": {
+          "src": "https://tse1.mm.bing.net/th/id/OIP.Ktc-zIblOohZIHEm6D2FwgHaE7?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+          "alt": "Rabat Coastline"
+        }
+      },
+      "engagement": {
+        "reactions": [
+          { "type": "Love", "count": null }
+        ],
+        "totalReactions": 67,
+        "comments": 9,
+        "shares": 2
+      },
+      "actions": ["Like", "Comment", "Share"]
+    }
+  },
+  {
+    "post": {
+      "id": "post-007",
+      "timestamp": "2025-11-10T10:05:00+01:00",
+      "user": {
+        "name": "Khalid Alami",
+        "profilePic": "https://randomuser.me/api/portraits/men/56.jpg",
+        "location": "Agadir, Morocco"
+      },
+      "content": {
+        "text": "Beach day in Agadir! The waves are calling and I must go. <strong>#Agadir</strong> wave",
+        "image": {
+          "src": "https://cdn.getyourguide.com/img/location/5cf677a674369.jpeg/88.jpg",
+          "alt": "Agadir Beach"
+        }
+      },
+      "engagement": {
+        "reactions": [
+          { "type": "Like", "count": null },
+          { "type": "Wow", "count": null }
+        ],
+        "totalReactions": 112,
+        "comments": 18,
+        "shares": 6
+      },
+      "actions": ["Like", "Comment", "Share"]
+    }
+  },
+  {
+    "post": {
+      "id": "post-008",
+      "timestamp": "2025-11-10T09:30:00+01:00",
+      "user": {
+        "name": "Nadia Rahmani",
+        "profilePic": "https://randomuser.me/api/portraits/women/67.jpg",
+        "location": "Essaouira, Morocco"
+      },
+      "content": {
+        "text": "Windy morning in Essaouira. The kitesurfers are out and the medina is peaceful. <strong>#Essaouira</strong> wind",
+        "image": {
+          "src": "https://exploreessaouira.com/wp-content/uploads/2022/08/Kitesurfing-Essaouira-feature-1080x772.jpg",
+          "alt": "Essaouira Kitesurfing"
+        }
+      },
+      "engagement": {
+        "reactions": [
+          { "type": "Heart", "count": null }
+        ],
+        "totalReactions": 78,
+        "comments": 11,
+        "shares": 4
+      },
+      "actions": ["Like", "Comment", "Share"]
+    }
+  },
+  {
+    "post": {
+      "id": "post-009",
+      "timestamp": "2025-11-10T08:45:00+01:00",
+      "user": {
+        "name": "Reda Zniber",
+        "profilePic": "https://randomuser.me/api/portraits/men/41.jpg",
+        "location": "Tangier, Morocco"
+      },
+      "content": {
+        "text": "Ferry from Spain to Tangier complete! First stop: fresh seafood by the port. <strong>#Tangier</strong> fish",
+        "image": {
+          "src": "https://th.bing.com/th/id/R.52f9bd3668682c58a229983aaea060dd?rik=vv%2fjMVfw3CAabw&riu=http%3a%2f%2fwww.cruisemapper.com%2fimages%2fports%2f680-4542b74f322f.jpg&ehk=5Hv%2fFsDD9plXBH5D0rhQyUgihIUqw%2buDyM0jqq7urD8%3d&risl=&pid=ImgRaw&r=0",
+          "alt": "Tangier Port"
+        }
+      },
+      "engagement": {
+        "reactions": [
+          { "type": "Like", "count": null }
+        ],
+        "totalReactions": 53,
+        "comments": 7,
+        "shares": 2
+      },
+      "actions": ["Like", "Comment", "Share"]
+    }
+  },
+  {
+    "post": {
+      "id": "post-010",
+      "timestamp": "2025-11-10T07:20:00+01:00",
+      "user": {
+        "name": "Siham Alaoui",
+        "profilePic": "https://randomuser.me/api/portraits/women/59.jpg",
+        "location": "Ouarzazate, Morocco"
+      },
+      "content": {
+        "text": "Early morning shoot at Ait Benhaddou. This UNESCO site is straight out of a movie! <strong>#Ouarzazate</strong> camera",
+        "image": {
+          "src": "https://tse2.mm.bing.net/th/id/OIP.Rj1pWqkZzLZRThDVWAMBAwHaEV?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+          "alt": "Ait Benhaddou Kasbah"
+        }
+      },
+      "engagement": {
+        "reactions": [
+          { "type": "Wow", "count": null },
+          { "type": "Love", "count": null }
+        ],
+        "totalReactions": 145,
+        "comments": 22,
+        "shares": 9
+      },
+      "actions": ["Like", "Comment", "Share"]
+    }
+    , "post": {
+      "id": "post-010",
+      "timestamp": "2025-11-10T07:20:00+01:00",
+      "user": {
+        "name": "Hamid",
+        "profilePic": "https://tse3.mm.bing.net/th/id/OIP.SYNNLMPpKoJQVK-J0gSiTAHaIv?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+        "location": "Ouarzazate, Morocco"
+      },
+      "content": {
+        "text": "Chtek gbrti 3lya kay simohamed",
+        "image": {
+          "src": "",
+          "alt": "crappa"
+        }
+      },
+      "engagement": {
+        "reactions": [
+          { "type": "Wow", "count": null },
+          { "type": "Love", "count": null }
+        ],
+        "totalReactions": 10000,
+        "comments": 22000,
+        "shares": 90
+      },
+      "actions": ["Like", "Comment", "Share"]
+    }
+  }
+    ]);
+
+    const [contacts,setContacts] = useState([
+  {
+    "name": "Sara El Mansouri",
+    "status": "Online",
+    "isOnline": true,
+    "avatar": "https://randomuser.me/api/portraits/women/81.jpg"
+  },
+  {
+    "name": "Omar Benjelloun",
+    "status": "Last seen 5 min ago",
+    "isOnline": false,
+    "avatar": "https://randomuser.me/api/portraits/men/12.jpg"
+  },
+  {
+    "name": "Laila Cherkaoui",
+    "status": "Online",
+    "isOnline": true,
+    "avatar": "https://randomuser.me/api/portraits/women/33.jpg"
+  },
+  {
+    "name": "Khalid Alami",
+    "status": "Typing...",
+    "isOnline": false,
+    "avatar": "https://randomuser.me/api/portraits/men/56.jpg"
+  },
+  {
+    "name": "Nadia Rahmani",
+    "status": "Last seen 1h ago",
+    "isOnline": false,
+    "avatar": "https://randomuser.me/api/portraits/women/67.jpg"
+  },
+  {
+    "name": "Youssef Tazi",
+    "status": "Online",
+    "isOnline": true,
+    "avatar": "https://randomuser.me/api/portraits/men/89.jpg"
+  },
+  {
+    "name": "Amina Bouziane",
+    "status": "Away",
+    "isOnline": false,
+    "avatar": "https://randomuser.me/api/portraits/women/22.jpg"
+  },
+  {
+    "name": "Salma Naji",
+    "status": "Online",
+    "isOnline": true,
+    "avatar": "https://randomuser.me/api/portraits/women/88.jpg"
+  },
+  {
+    "name": "Tarek Chraibi",
+    "status": "Away",
+    "isOnline": false,
+    "avatar": "https://randomuser.me/api/portraits/men/65.jpg"
+  },
+  {
+    "name": "Hajar Fassi",
+    "status": "Online",
+    "isOnline": true,
+    "avatar": "https://randomuser.me/api/portraits/women/14.jpg"
+  },
+  {
+    "name": "Ayoub Lamrani",
+    "status": "Last seen 12 min ago",
+    "isOnline": false,
+    "avatar": "https://randomuser.me/api/portraits/men/23.jpg"
+  },
+  {
+    "name": "Reda Zniber",
+    "status": "Online",
+    "isOnline": true,
+    "avatar": "https://randomuser.me/api/portraits/men/41.jpg"
+  },
+  {
+    "name": "Siham Alaoui",
+    "status": "Last seen 3 min ago",
+    "isOnline": false,
+    "avatar": "https://randomuser.me/api/portraits/women/59.jpg"
+  },
+  {
+    "name": "Imad Berrada",
+    "status": "Typing...",
+    "isOnline": false,
+    "avatar": "https://randomuser.me/api/portraits/men/77.jpg"
+  }
+]
+    );
+
+    const [suggFriends,setSuggFriends] = useState([
+  {
+    "name": "Nora Idrissi",
+    "meta": "3 mutual friends",
+    "avatar": "https://randomuser.me/api/portraits/women/31.jpg"
+  },
+  {
+    "name": "Hamza Belhaj",
+    "meta": "From Casablanca",
+    "avatar": "https://randomuser.me/api/portraits/men/48.jpg"
+  },
+  {
+    "name": "Zineb Lahbabi",
+    "meta": "Works at Maroc Telecom",
+    "avatar": "https://randomuser.me/api/portraits/women/72.jpg"
+  },
+  {
+    "name": "Adil Saadi",
+    "meta": "1 mutual friend",
+    "avatar": "https://randomuser.me/api/portraits/men/19.jpg"
+  },
+  {
+    "name": "Rania Touzani",
+    "meta": "Studies at UM6P",
+    "avatar": "https://randomuser.me/api/portraits/women/55.jpg"
+  },
+  {
+    "name": "Sami Chami",
+    "meta": "From Rabat",
+    "avatar": "https://randomuser.me/api/portraits/men/83.jpg"
+  },
+  {
+    "name": "Inès Benkirane",
+    "meta": "5 mutual friends",
+    "avatar": "https://randomuser.me/api/portraits/women/27.jpg"
+  },
+  {
+    "name": "Bilal Mezouari",
+    "meta": "Followed by 2 friends",
+    "avatar": "https://randomuser.me/api/portraits/men/61.jpg"
+  },
+  {
+    "name": "Ghita El Fassi",
+    "meta": "Lives in Marrakech",
+    "avatar": "https://randomuser.me/api/portraits/women/40.jpg"
+  },
+  {
+    "name": "Karim Ouazzani",
+    "meta": "Knows Arabic & French",
+    "avatar": "https://randomuser.me/api/portraits/men/35.jpg"
+  }
+]
+    );
 
     // useEffect(() => {
     //     const handleResize = () => {
@@ -23,86 +473,11 @@ export default function Home() {
         <div id='home'>
             <Navbar iorsb={setIsOpenRightSideBare} iolsb={setIsOpenLeftSideBare}/>
 
-            <div className={`home-rsb${isOpenRightSideBare ? " open" : ""}`}>
-                RightSidebare
-                <GrClose onClick={()=>setIsOpenRightSideBare(false)}/>
-            </div>
+            <RightSideBar isOpenR={isOpenRightSideBare} setIsOpenR={setIsOpenRightSideBare} suggFriends={suggFriends}/>
 
-            <div className={`home-lsb${isOpenLeftSideBare ? " open" : ""}`}>
-                LeftSidebare
-                <GrClose onClick={()=>setIsOpenLeftSideBare(false)}/>
-            </div>
+            <LeftSideBar isOpenL={isOpenLeftSideBare} setIsOpenL={setIsOpenLeftSideBare} contacts={contacts}/>
 
-            <div className='home-main'>Mainbox(Feed)
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam, quam? 
-                Culpa maxime rerum, ipsa neque fuga sit totam atque magnam quibusdam conse
-                quatur aut. Officiis in vero dignissimos est corrupti! Consequatur sed qu
-                aerat vero tempore odio distinctio ex facere, nam suscipit, culpa dolor, 
-                dolorum dolores nulla asperiores expedita magnam facilis cumque eveniet la
-                borum autem ea sequi? Sunt quos, doloremque aut sequi animi quidem quaerat 
-                distinctio quam nemo facere laudantium inventore maiores. In architecto rei
-                ciendis exercitationem ex temporibus rerum iure ut. Pariatur, neque. Nemo q
-                uia atque accusantium provident qui ea nesciunt veniam doloribus eius neque
-                . Fuga recusandae expedita tenetur sapiente enim aperiam beatae repellendus
-                , deleniti illum temporibus totam repellat optio voluptatum fugiat odio imp
-                edit nostrum ea, facilis velit hic! Eum sequi fuga est aut libero ipsam vel
-                 nisi corporis quae mollitia quasi facilis iste nemo natus, minima saepe ve
-                 lit soluta dolorum aliquam nulla ipsum exercitationem maiores. Laboriosam 
-                 corporis, nobis cumque earum maxime obcaecati eaque itaque veritatis quam 
-                 aspernatur corrupti minus iure, saepe ratione possimus suscipit vero at eu
-                 m pariatur beatae accusamus qui. Assumenda beatae laborum possimus incidun
-                 t quibusdam voluptate! Exercitationem explicabo quasi ad ducimus ex asperi
-                 ores delectus minima tempora officia cumque vitae consequuntur, quidem vol
-                 uptate non itaque dolorum voluptates provident? Necessitatibus nobis praes
-                 entium ex, ipsam a suscipit saepe, velit blanditiis debitis doloribus prov
-                 ident aliquam eaque nisi optio eligendi numquam sapiente qui laborum perfe
-                 rendis. Aut esse, exercitationem ducimus quae magnam illum porro nobis in 
-                 ipsa perferendis asperiores ad minima ab, iste odit voluptas saepe distinc
-                 tio quaerat reprehenderit similique fugit quasi. Ipsum eligendi asperiores
-                  nam! Repellendus ipsa doloribus doloremque. Ipsa delectus, consequuntur m
-                  agni eligendi nemo aut neque vel aperiam laborum sunt ex ea ut perspiciat
-                  is minima blanditiis obcaecati sequi dignissimos quibusdam dolorum? Ducim
-                  us fugit iusto distinctio temporibus id dolores odit cumque quo quod exer
-                  citationem laborum dolor, ipsa quaerat nemo esse libero unde nihil rem si
-                  nt iure architecto earum nostrum. Et rem iusto, fugit molestias blanditii
-                  s ipsam excepturi at voluptatem, quaerat nostrum, odit corrupti alias rec
-                  usandae earum est corporis. Vel veniam ipsam inventore, beatae enim optio
-                  , corporis aut culpa reiciendis dignissimos aliquid accusamus ut perferen
-                  dis laudantium temporibus. Officiis aperiam quod nemo quam iusto ad eius 
-                  laudantium enim esse molestiae optio totam mollitia ea, dignissimos venia
-                  m sapiente consequatur distinctio aspernatur quo magnam earum nobis praes
-                  entium hic. Officia, accusamus! Eum ratione consequatur officia? Quos, de
-                  bitis inventore molestiae consequuntur, quae quidem aspernatur natus nisi
-                   autem, blanditiis adipisci est veritatis accusamus amet nesciunt. Quos m
-                   olestiae explicabo quidem quisquam voluptatem voluptates distinctio null
-                   a ratione eius. Corrupti consequatur ipsa doloribus excepturi ex adipisc
-                   i labore ipsum? Quos minima necessitatibus dicta sit! Adipisci accusanti
-                   um nihil, repellat laboriosam numquam officiis nesciunt optio temporibus
-                   ! Harum ipsam molestias blanditiis doloribus nobis ducimus fugit in temp
-                   oribus vero mollitia illum, recusandae ea impedit cupiditate quasi nihil
-                    inventore dolorum, aperiam cum perferendis accusantium. Ducimus nulla d
-                    icta repudiandae expedita doloremque autem ex, vel ipsam odit officiis 
-                    excepturi corporis nisi, iusto, ullam error soluta. Nulla ad impedit, q
-                    uis quas ullam praesentium officia sint harum esse totam laboriosam ten
-                    etur voluptatum voluptatem non at, animi dolore, sequi accusamus qui ip
-                    sum aspernatur maiores illum nesciunt repudiandae? Dignissimos ea moles
-                    tiae quaerat nihil iste, autem illum dolore doloremque amet et similiqu
-                    e, deleniti perferendis illo cupiditate. Ab vero possimus nihil aperiam
-                     id voluptatibus aliquam, reprehenderit est odio at porro magnam tempor
-                     a soluta perferendis tenetur repudiandae sunt obcaecati fuga repellat 
-                     earum nobis dolores voluptate adipisci amet. Ipsam non consectetur min
-                     ima nisi. Illum cupiditate consequatur autem vero tempora et molestiae
-                     , delectus voluptate tenetur voluptates blanditiis nam in nulla dolore
-                     mque veritatis? Magnam eius saepe debitis cupiditate nulla nisi cum qu
-                     am unde provident quibusdam eaque, molestias impedit ipsam distinctio 
-                     placeat porro aspernatur at exercitationem, vero nam! Facilis quaerat 
-                     quisquam ea fuga saepe voluptas placeat, ut cumque sit obcaecati sed a
-                     utem quae. Sunt error, debitis exercitationem deserunt natus commodi q
-                     uos, minus mollitia voluptas illo vel enim magni? Delectus architecto 
-                     nobis eligendi non recusandae? Ab eaque, fugit autem mollitia providen
-                     t maiores ex esse sint. Commodi eos veritatis qui, veniam necessitatibus 
-                     consectetur nam neque reprehenderit explicabo quae autem doloremque quam omnis hic aliquid quod magnam itaque ex alias quibusdam cupiditate quas dolore ullam facere? Repudiandae voluptatum facilis, saepe nisi, reprehenderit quos ullam, ratione suscipit accusantium repellendus voluptate. Corporis quia tenetur aperiam non veritatis! Deserunt, consectetur quam ullam nostrum autem quibusdam labore! Ab vero mollitia sunt, voluptatem quia rem? Magni ab debitis quibusdam, officiis ea nemo a. Distinctio accusantium itaque neque odio, soluta nobis corporis quo harum a rerum earum ex sed ducimus explicabo dignissimos reprehenderit perspiciatis ipsam, voluptatum laborum, non magnam eligendi aliquam nihil. Nobis recusandae, explicabo dolorum possimus voluptatibus, adipisci optio ducimus minus est consequatur ipsam numquam veritatis nam dolor molestias corporis! Voluptatibus nihil assumenda itaque iure ad dicta impedit cumque! Quis libero facilis officia dolorem accusamus eos distinctio velit hic maiores temporibus saepe repellendus quasi expedita placeat aliquid ipsam, atque enim rerum. Pariatur magnam nihil odit, quo earum autem nulla laboriosam inventore nisi et facere dignissimos animi sint nesciunt officia veritatis at adipisci nemo quos vero culpa consequuntur suscipit incidunt? Nisi voluptate autem debitis cumque voluptatem. Harum dolorem temporibus facilis quasi vitae. Quod nam asperiores tenetur nobis voluptas consectetur suscipit enim velit libero maxime repellendus repudiandae provident voluptatum quae, alias sapiente rerum beatae hic atque perspiciatis? Natus cum porro ipsum aspernatur itaque architecto ullam facilis eligendi voluptatum dicta! Obcaecati incidunt debitis ducimus delectus labore beatae assumenda corporis porro consequuntur, provident, blanditiis ut sapiente magni vitae sit soluta est quisquam exercitationem veniam praesentium nemo numquam, molestias tenetur! Exercitationem tenetur vitae saepe, eius nihil minus, ratione atque quae amet sed quaerat est cupiditate quidem accusamus dolores voluptatibus illum deleniti adipisci magnam dolorum nulla quibusdam quam debitis! Eveniet repellendus quasi id? Aperiam ratione doloremque vel quod iure deleniti facilis, nostrum officia tempora similique fuga exercitationem repellendus neque ullam dolorem itaque nobis expedita ipsam. Voluptates numquam libero, eos est nostrum veritatis, ipsa magni id vel maxime itaque vitae, ipsam iste voluptate dolorem laboriosam ullam. Culpa necessitatibus nihil consequuntur reiciendis aliquid vitae quidem id, facere earum, adipisci dignissimos quo perferendis nam unde accusantium cum magni voluptate soluta consectetur amet aperiam aliquam velit. Commodi corporis praesentium earum dolores!
-            </div>
+            <Feed posts={posts}/>
         </div>
     )
 }

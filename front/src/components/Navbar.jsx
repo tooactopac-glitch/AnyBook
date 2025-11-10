@@ -22,7 +22,7 @@ export default function Navbar({iorsb,iolsb}) {
   }, []);
 
   return (
-    <nav className='home-nav'>
+     <nav className='home-nav'>
 
         <h2 className='nav-logo'>AnyBook</h2>
 
@@ -35,7 +35,7 @@ export default function Navbar({iorsb,iolsb}) {
         </div>
 
         <div className="nav-info">
-            <img className='nav-img' src="logo192.png" alt="logo192.png" />
+            <img className='nav-img' src="https://th.bing.com/th/id/OIP.mk0-Nx6ZDnnVSBopga6pYAHaHa?w=195&h=195&c=7&r=0&o=7&cb=ucfimg2&dpr=1.5&pid=1.7&rm=3&ucfimg=1" alt="logo192.png" />
             <button className='btn-logout'>Logout</button>
         </div>
 
