@@ -30,6 +30,7 @@ export default function Login() {
     });
 
     const data = await resultat.json();
+    console.log(data)
     if (data.datauser) {
       localStorage.setItem("token", data.token);
       navigate("/home");

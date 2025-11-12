@@ -1,4 +1,4 @@
-import React from 'react'
+import { SlLike } from "react-icons/sl";
 
 export default function Feed({posts}) {
  
@@ -39,7 +39,7 @@ export default function Feed({posts}) {
                                 <div className="engagement-bar">
                                 <div className="reactions">
                                     {postData.post.engagement.reactions.map((r, i) => (
-                                    <span key={i} className="reaction">{r.type}</span>
+                                        <SlLike key={i}/>
                                     ))}
                                     <span className="count">{postData.post.engagement.totalReactions}</span>
                                 </div>
@@ -65,7 +65,7 @@ export default function Feed({posts}) {
                  
                     <footer className="site-footer">
                         <p className="copyright">
-                            © 2025 TravelMorocco. All rights reserved.
+                            © 2025 AnyBook. All rights reserved.
                         </p>
                     </footer>
                 </div>

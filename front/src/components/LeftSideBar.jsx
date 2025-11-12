@@ -13,7 +13,7 @@ export default function ({isOpenL,setIsOpenL,contacts}) {
                     {
                         contacts.map((contact,k)=>{
                             return (
-                                <div className="contact-item">
+                                <div key={k} className="contact-item">
                                     <img src={contact.avatar || "logo192.png"} alt={ contact.name ||"inknown"} className="contact-avatar" />
                                     <div className="contact-info">
                                         <span className="contact-name">{contact.name || "inknown"}</span>

@@ -3,12 +3,16 @@ import Navbar from '../components/Navbar'
 import LeftSideBar from "../components/LeftSideBar";
 import RightSideBar from "../components/RightSideBar";
 import Feed from "../components/Feed";
+import Profile from "../components/Profile";
 import { GrClose } from "react-icons/gr";
 
 
 export default function Home() {
     const [isOpenRightSideBare, setIsOpenRightSideBare] = useState(false);
     const [isOpenLeftSideBare, setIsOpenLeftSideBare] = useState(false);
+    const [isOpenProfile, setIsOpenProfile] = useState(false);
+
+
     const [posts,setPosts] = useState([
   {
     "post": {
@@ -28,9 +32,7 @@ export default function Home() {
       },
       "engagement": {
         "reactions": [
-          { "type": "Like", "count": null },
-          { "type": "Heart", "count": null },
-          { "type": "Wow", "count": null }
+          { "type": "Like", "count": null }
         ],
         "totalReactions": 127,
         "comments": 24,
@@ -57,8 +59,7 @@ export default function Home() {
       },
       "engagement": {
         "reactions": [
-          { "type": "Like", "count": null },
-          { "type": "Love", "count": null }
+          { "type": "Like", "count": null }
         ],
         "totalReactions": 89,
         "comments": 12,
@@ -85,8 +86,7 @@ export default function Home() {
       },
       "engagement": {
         "reactions": [
-          { "type": "Wow", "count": null },
-          { "type": "Heart", "count": null }
+          { "type": "Like", "count": null }
         ],
         "totalReactions": 203,
         "comments": 38,
@@ -113,7 +113,7 @@ export default function Home() {
       },
       "engagement": {
         "reactions": [
-          { "type": "Wow", "count": null }
+          { "type": "Like", "count": null }
         ],
         "totalReactions": 156,
         "comments": 19,
@@ -140,8 +140,7 @@ export default function Home() {
       },
       "engagement": {
         "reactions": [
-          { "type": "Like", "count": null },
-          { "type": "Heart", "count": null }
+          { "type": "Like", "count": null }
         ],
         "totalReactions": 94,
         "comments": 15,
@@ -168,7 +167,7 @@ export default function Home() {
       },
       "engagement": {
         "reactions": [
-          { "type": "Love", "count": null }
+          { "type": "Like", "count": null }
         ],
         "totalReactions": 67,
         "comments": 9,
@@ -195,8 +194,7 @@ export default function Home() {
       },
       "engagement": {
         "reactions": [
-          { "type": "Like", "count": null },
-          { "type": "Wow", "count": null }
+          { "type": "Like", "count": null }
         ],
         "totalReactions": 112,
         "comments": 18,
@@ -223,7 +221,7 @@ export default function Home() {
       },
       "engagement": {
         "reactions": [
-          { "type": "Heart", "count": null }
+          { "type": "Like", "count": null }
         ],
         "totalReactions": 78,
         "comments": 11,
@@ -277,8 +275,7 @@ export default function Home() {
       },
       "engagement": {
         "reactions": [
-          { "type": "Wow", "count": null },
-          { "type": "Love", "count": null }
+          { "type": "Like", "count": null }
         ],
         "totalReactions": 145,
         "comments": 22,
@@ -303,8 +300,7 @@ export default function Home() {
       },
       "engagement": {
         "reactions": [
-          { "type": "Wow", "count": null },
-          { "type": "Love", "count": null }
+          { "type": "Like", "count": null }
         ],
         "totalReactions": 10000,
         "comments": 22000,
@@ -469,15 +465,18 @@ export default function Home() {
     //     return () => window.removeEventListener("resize", handleResize);
     // }, []);
 
+
+
     return (
         <div id='home'>
-            <Navbar iorsb={setIsOpenRightSideBare} iolsb={setIsOpenLeftSideBare}/>
+            <Navbar iorsb={setIsOpenRightSideBare} iolsb={setIsOpenLeftSideBare} iop={setIsOpenProfile} iopValue={isOpenProfile}/>
 
             <RightSideBar isOpenR={isOpenRightSideBare} setIsOpenR={setIsOpenRightSideBare} suggFriends={suggFriends}/>
 
             <LeftSideBar isOpenL={isOpenLeftSideBare} setIsOpenL={setIsOpenLeftSideBare} contacts={contacts}/>
 
-            <Feed posts={posts}/>
+            
+            {  isOpenProfile ? <Profile /> : <Feed posts={posts}/>   }
         </div>
     )
 }

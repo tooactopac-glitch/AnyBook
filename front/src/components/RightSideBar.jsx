@@ -1,4 +1,5 @@
 import { GrClose } from "react-icons/gr";
+import { LuPlus } from "react-icons/lu";
 export default function RightSideBar({isOpenR,setIsOpenR,suggFriends}) {
   return (
     <>
@@ -13,13 +14,13 @@ export default function RightSideBar({isOpenR,setIsOpenR,suggFriends}) {
                       {
                         suggFriends.map((suggFriend,k)=>{
                             return (
-                                <div className="friend-suggestion">
+                                <div key={k} className="friend-suggestion">
                                     <img src={ suggFriend.avatar || "logo192.png"} alt={ suggFriend.name || "unknown"} className="suggestion-avatar" />
                                     <div className="suggestion-info">
                                         <span className="suggestion-name">{suggFriend.name || "unkown"}</span>
                                         <span className="suggestion-meta">{suggFriend.meta || "3 mutual friends"}</span>
                                     </div>
-                                    <button className="add-friend-btn">Add Friend</button>
+                                    <button className="add-friend-btn"><LuPlus className="plus-icon"/></button>
                                 </div>
                             )
                         })
