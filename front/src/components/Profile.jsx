@@ -1,13 +1,12 @@
 import { IoLogoGithub } from "react-icons/io";
 import { GrLinkedin } from "react-icons/gr";
 import { FaGitlab } from "react-icons/fa6";
+import { FaCamera, FaEdit, FaImage } from "react-icons/fa";
 
 export default function Profile() {
   return (
-    <div className='profile-container'>
- 
-
-        {/* <div className='profile'>
+    <div className="profile-container">
+      {/* <div className='profile'>
             <div style={{position:'relative',backgroundColor:'red',height:'100%',gridRow:'1 / 3'}}>
                 <img style={{height:'7rem',background:'rgba(255,255,255,0.2)',backdropFilter:'blur(1.5rem)',borderRadius:'50%',position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-50%)',border: '7px solid transparent'}} src="https://randomuser.me/api/portraits/men/35.jpg" alt="img" />
                 
@@ -43,50 +42,46 @@ export default function Profile() {
             </div>
         </div> */}
 
+      <div className="profile">
+        <div className="profile-top">
+          <div className="profile-img">
+            <img
+              src="https://randomuser.me/api/portraits/men/35.jpg"
+              alt="img"
+            />
+            <FaCamera size="20" className="change-image"/>
+          </div>
 
+          <div className="profile-banner"></div>
 
-
-<div className="profile">
-      <div className="profile-top">
-        <img
-          className="profile-img"
-          src="https://randomuser.me/api/portraits/men/35.jpg"
-          alt="img"
-        />
-
-        <div className="profile-banner"></div>
-
-        <div className="profile-info">
-          <p className="profile-name">Hamid El Mansouri</p>
-          <p>HamidElMansouri@gmail.com</p>
-          <div className="profile-stats">
-            209 Post | 192K Followers | 2k Following
-            <br />
+          <div className="profile-info">
+            <p className="profile-name">Hamid El Mansouri</p>
+            <p>HamidElMansouri@gmail.com</p>
+            <div className="profile-stats">
+              209 Post | 192K Followers | 2k Following
+              <br />
+            </div>
           </div>
         </div>
 
-      </div>
+        <div className="profile-bottom">
+          <hr />
 
-      <div className="profile-bottom">
-                  <hr />
+          <span className="about-title">About me</span>
+          <small>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vero
+            voluptas quisquam odit iusto debitis amet aperiam autem voluptatibus
+            minus. Lorem ipsum dolor sit amet.
+          </small>
 
-        <span className="about-title">About me</span>
-        <small>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vero
-          voluptas quisquam odit iusto debitis amet aperiam autem voluptatibus
-          minus. Lorem ipsum dolor sit amet.
-        </small>
-
-        <p className="follow-text">Follow me on</p>
-        <div className="socials">
-          <IoLogoGithub size="20" />
-          <GrLinkedin />
-          <FaGitlab />
+          <p className="follow-text">Follow me on</p>
+          <div className="socials">
+            <IoLogoGithub size="20" />
+            <GrLinkedin />
+            <FaGitlab />
+          </div>
         </div>
       </div>
-
     </div>
-
-    </div>
-  )
+  );
 }
