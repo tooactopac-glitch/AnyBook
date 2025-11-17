@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 export default function Register() {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showOTP, setShowOTP] = useState(false);
@@ -35,7 +36,7 @@ export default function Register() {
     const resultat = await fetch(`${BASE_URL}/api/verify-otp`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ firstname, lastname, email, password }),
+      body: JSON.stringify({ firstname, lastname,username, email, password }),
     });
 
     await resultat.json();
@@ -87,6 +88,19 @@ export default function Register() {
               placeholder="Enter your last name"
               value={lastname}
               onChange={(e) => setLastname(e.target.value)}
+              required
+              autoComplete="family-name"
+            />
+          </div>
+
+          
+          <div className="input-group input-group-r">
+            <FaUser className="input-icon" />
+            <input
+              type="text"
+              placeholder="Enter username must be between 3 and 20 chars"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
               autoComplete="family-name"
             />

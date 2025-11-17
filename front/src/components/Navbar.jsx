@@ -1,36 +1,78 @@
-import { useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
-import { CiDark } from "react-icons/ci";
-import { CiLight } from "react-icons/ci";
+import { useContext,useEffect,useState } from "react";
+import { Link,useNavigate, useLocation } from "react-router-dom";
+import { CiDark,CiLight } from "react-icons/ci";
 import { ThemeContext } from "../context/ThemeContext";
-import { IoChatbox, IoSettingsSharp } from "react-icons/io5";
-import { IoIosContact } from "react-icons/io";
+import { IoSettingsSharp,IoChatbox } from "react-icons/io5";
 import {
   FaHome,
-  FaImage,
-  FaTv,
-  FaUserFriends,
   FaVideo,
-  FaVideoSlash,
+  FaUserFriends,
+  FaChat
 } from "react-icons/fa";
-import { FaUserGroup } from "react-icons/fa6";
+import { FaClapperboard, FaRegSquarePlus, FaSquarePlus, FaUserGroup } from "react-icons/fa6";
+import { MyContext } from "../context";
+
 
 const navigation = [
-  { name: "Home", href: "#", current: true, icon: <FaHome /> },
-  { name: "Reels", href: "#", current: false, icon: <FaImage /> },
-  { name: "Groups", href: "#", current: false, icon: <FaUserGroup /> },
-  { name: "Video", href: "#", current: false, icon: <FaVideo /> },
+  { name: "Home", href: "/home", current: true, icon: <FaHome className="link-icon"/> },
+  { name: "Reels", href: "#", current: false, icon: <FaClapperboard className="link-icon"/> },
+  { name: "Groups", href: "#", current: false, icon: <FaUserGroup className="link-icon"/> },
+  { name: "Video", href: "#", current: false, icon: <FaVideo className="link-icon"/> },
 ];
 
-export default function Navbar({
-  iorsb,
-  iolsb,
-  iop,
-  iopValue,
-  iolsbValue,
-  iorsbbValue,
-}) {
+export default function Navbar({iorsb,iolsb,iolsbValue,iorsbValue}) {
   const { theme, setTheme } = useContext(ThemeContext);
+  const [user,setUser] = useState(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { BASE_URL,token } = useContext(MyContext);
+  
+
+  const isProfilePage = location.pathname === "/home/profile";
+  const isSettingsPage = location.pathname === "/home/settings";
+
+  useEffect(() => {
+    const fetchMyData = async () => {
+      const res = await fetch(`${BASE_URL}/api/get-mydata-profile`,
+        {
+          method: "post",
+          headers: {
+            "Authorization":`bearer ${token}`,
+            "Content-Type": "application/json"
+          }
+        }
+      );
+      const r = await res.json();
+      setUser(r.mydata);
+  }
+    fetchMyData();
+  }, [])
+  
+
+
+  const handleProfileClick = () => {
+    if (isProfilePage) {
+      navigate("/home"); 
+    } else {
+      navigate("/home/profile/me"); 
+    }
+  };
+  const handleSettingsClick = ()=>{
+    if(isSettingsPage){
+      navigate("/home")
+    }else{
+      navigate("/home/settings")
+    }
+  }
+  
+
+    const handleOpenCreatePost = ()=>{
+    if(isSettingsPage){
+      navigate("/home")
+    }else{
+      navigate("/home/createPost")
+    }
+  }
 
   //   useEffect(() => {
   //     const handleResize = () => {
@@ -49,35 +91,58 @@ export default function Navbar({
         {navigation.map((link, k) => (
           <div key={k} className="link-item">
             <Link className="link" to={link.href}>
-              {link.icon} {link.name}
+              {link.icon} <span className="link-name">{link.name}</span> 
             </Link>
           </div>
         ))}
+         <FaUserFriends
+          className="contacts-suggfriends"
+          size="25"
+          onClick={() => iorsb(iorsbValue ? false : true)}
+          title="Suggested Friends"
+        />
+       <IoChatbox
+          className="contacts-suggfriends"
+          size="25"
+          onClick={() => iolsb(iolsbValue ? false : true)}
+          title="Contacts"
+        />
+
       </div>
 
       <div className="nav-info">
-        <CiDark
+        {/* none on Mobile */}
+        <div className="dark-light-icons">
+          <CiDark
           className="dark"
           style={{ display: theme ? "inline" : "none" }}
+          size="25"
           onClick={() => setTheme(false)}
         />
         <CiLight
           className="light"
           style={{ display: theme ? "none" : "inline" }}
+          size="25"
           onClick={() => setTheme(true)}
         />
-        <IoSettingsSharp size="25" className="settings-icon" />
+      
+        </div>
+
+       {/* on Pc */}
+        <FaRegSquarePlus size="23" onClick={handleOpenCreatePost}/>
+        <IoSettingsSharp size="25" className="settings-icon" onClick={handleSettingsClick}/>
         <img
           className="nav-img"
-          src="https://th.bing.com/th/id/OIP.mk0-Nx6ZDnnVSBopga6pYAHaHa?w=195&h=195&c=7&r=0&o=7&cb=ucfimg2&dpr=1.5&pid=1.7&rm=3&ucfimg=1"
-          alt="logo192.png"
-          onClick={() => (iopValue ? iop(false) : iop(true))}
+          src={`${BASE_URL}${user?.avatar}`}
+          alt="alt"
+          onClick={handleProfileClick}
         />
+
       </div>
 
       {/* MOBILE */}
 
-      <div className="bottom-nav">
+      {/* <div className="bottom-nav">
         <CiDark
           className="dark"
           style={{ display: theme ? "inline" : "none" }}
@@ -93,21 +158,11 @@ export default function Navbar({
           className="settings-icon"
           onClick={() => (iopValue ? iop(false) : iop(true))}
         />
-        <FaUserFriends
-          size="25"
-          onClick={() => iorsb(iorsbbValue ? false : true)}
-          title="Suggested Friends"
-        />
-        <IoChatbox
-          size="30"
-          onClick={() => iolsb(iolsbValue ? false : true)}
-          title="Contacts"
-        />
         <IoIosContact
           size="30"
           title="Contacts"
         />
-      </div>
+      </div> */}
     </nav>
   );
 }
