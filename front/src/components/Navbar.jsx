@@ -30,7 +30,6 @@ export default function Navbar({iorsb,iolsb,iolsbValue,iorsbValue}) {
 
   const isProfilePage = location.pathname === "/home/profile";
   const isSettingsPage = location.pathname === "/home/settings";
-
   useEffect(() => {
     const fetchMyData = async () => {
       const res = await fetch(`${BASE_URL}/api/get-mydata-profile`,

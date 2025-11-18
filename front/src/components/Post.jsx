@@ -1,11 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import { MyContext } from "../context";
-import {  FaDropbox, FaEllipsisH, FaRegComment, FaRegThumbsUp, FaRemoveFormat, FaShareAlt, FaThumbsUp, FaTrash } from "react-icons/fa";
-import {  useNavigate, useOutletContext } from "react-router-dom";
+import {  FaDropbox, FaEllipsisH, FaRegComment, FaRegThumbsUp, FaRemoveFormat, FaShare, FaShareAlt, FaThumbsUp, FaTrash } from "react-icons/fa";
+import {   useNavigate, useOutletContext } from "react-router-dom";
 
 
 
-export default function Post({postData,k,setPosts ,index}) {
+export default function Post({postData,setPosts ,index}) {
     const {BASE_URL,token} = useContext(MyContext)
     const [like, setLike] = useState(postData.myReaction);
     const [likeCount, setLikeCount] = useState(postData.likesCount);
@@ -15,6 +15,8 @@ export default function Post({postData,k,setPosts ,index}) {
     const [currentUser,setCurrentUser] = useState(null)
     const [commentText, setCommentText] = useState(""); 
     const navigate = useNavigate()
+
+
 
     const [comments,setComments] = useState([]);
 
@@ -112,12 +114,30 @@ export default function Post({postData,k,setPosts ,index}) {
         setComments(prev => [...prev, newComment]);
         setCommentText(""); 
     };
+    
 
+    const handleRemovePost = async () => {
+        const res = await fetch(`${BASE_URL}/api/delete-post`, {
+            method: "POST",
+            headers: {
+            "Authorization": `bearer ${token}`,
+            "Content-Type": "application/json",
+            },
+            body: JSON.stringify({postID:postData._id}),
+        });
+        const r = await res.json();
+        setPosts(prev => prev.filter(post => post._id != postData._id))
+    };
+
+    const handleProfileClick = async(currentuserID) => {
+        navigate(`/home/profile/${currentuserID}`); 
+    };
+    console.log(postData)
     return (
             <div className="postcard">
                 {/* Header */}
                 <div className="post-header">
-                    <img src={postData.user.avatar || "logo192.png"} alt={postData.user.username} className="profile-pic" />
+                    <img src={postData?.user.avatar || "logo192.png"} alt={postData.user.username} className="profile-pic" onClick={()=>handleProfileClick(postData.user._id)}/>
                     <div className="user-info">
                         <h3 className="username">{postData.user.username}</h3>
                         <p className="post-time">{new Date(postData.create_date).toLocaleString()}<span className="location">ifrane, Morroco</span></p>
@@ -129,7 +149,8 @@ export default function Post({postData,k,setPosts ,index}) {
                         </button>
 
                     <div className="dropdown-content">
-                        <p className="action" style={{color:'red'}}>Remove <FaTrash size="15"/></p>
+                        { currentUser?.id === postData.user._id ?  <p className="action" style={{color:'red',cursor:"pointer"}} onClick={handleRemovePost}>Remove <FaTrash size="15"/></p>  :  ''}
+                        <p className="action" style={{cursor:"pointer"}}>Share <FaShare size="15"/></p>
                     </div>
                     </div>
 

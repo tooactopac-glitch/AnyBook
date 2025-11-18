@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from "react";
-import { Outlet } from "react-router-dom"
+import { Outlet, useLocation } from "react-router-dom"
 import Navbar from "../components/Navbar";
 import LeftSideBar from "../components/LeftSideBar";
 import RightSideBar from "../components/RightSideBar";
@@ -10,10 +10,9 @@ export default function Home() {
   const [isOpenRightSideBare, setIsOpenRightSideBare] = useState(false);
   const [isOpenLeftSideBare, setIsOpenLeftSideBare] = useState(false);
   const { BASE_URL,setToken } = useContext(MyContext);
-
+  const location = useLocation()
 
   const token = localStorage.getItem('token')
-  setToken(token)
 
   // const [posts, setPosts] = useState([
   //   {
@@ -438,8 +437,20 @@ export default function Home() {
   const [contacts, setContacts] = useState([]);
   const [posts, setPosts] = useState([]);
 
+  const fetchPostsData = async () => {
+      const res = await fetch(`${BASE_URL}/api/get-all-posts`,{
+            method: "post",
+            headers: {
+                "Authorization":`bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+      });
+      const r = await res.json();
+      setPosts(r);
+  }
 
   useEffect(() => {
+    setToken(token)
     const fetchConatactData = async () => {
       const res = await fetch(`${BASE_URL}/api/get-my-contacts`,
         {
@@ -451,28 +462,18 @@ export default function Home() {
         }
       );
       const r = await res.json();
-      console.log(r)
       setContacts(r.mycontact);
     }
-    const fetchPostsData = async () => {
-      const res = await fetch(`${BASE_URL}/api/get-all-posts`,{
-            method: "post",
-            headers: {
-                "Authorization":`bearer ${token}`,
-                "Content-Type": "application/json"
-            },
-      });
-      const r = await res.json();
-      console.log(r)
-      setPosts(r);
-    }
+
     fetchConatactData();
     fetchPostsData();
   }, [])
 
 
-  // useEffect(()=>{
-  // },[posts])
+  useEffect(()=>{
+    // setPosts(prev => [...prev,location.state])
+    if(location.state == "ok") fetchPostsData()
+  },[location.state])
 
   return (
     <div id="home">

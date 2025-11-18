@@ -1,18 +1,29 @@
 import { useState,useContext } from "react";
-import { FaVideo, FaImage, FaFacebook } from "react-icons/fa";
+import { FaVideo, FaImage, FaFacebook, FaRepublican, FaTextHeight, FaAlignCenter } from "react-icons/fa";
 import { MyContext } from "../context";
+import { useNavigate } from "react-router-dom";
 
 
 export default function CreatePost() {
   const { BASE_URL,token } = useContext(MyContext);
   const [activeTab, setActiveTab] = useState("text");
+  const [activeTabEncap, setActiveTabEncap] = useState("public");
+
   const [postText, setPostText] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedVideo, setSelectedVideo] = useState(null);
+  const navigate = useNavigate()
 
-  const types = [{ id: "text", label: "Text Post", icon: <FaFacebook /> },
+  const types = [
+    { id: "text", label: "Text Post", icon: <FaAlignCenter /> },
     { id: "image", label: "Photo", icon: <FaImage /> },
     { id: "video", label: "Video", icon: <FaVideo /> }
+    ]
+  
+  const EncapTypes = [
+    { id: "public", label: "Public", icon: "" },
+    { id: "private", label: "Private", icon: "" },
+    { id: "friends", label: "Friends", icon: "" }
     ]
 
   const handleImageChange = (e) => {
@@ -26,18 +37,13 @@ export default function CreatePost() {
   };
 
   const handleSubmit = async() => {
-    console.log("Posting:", {
-      type: activeTab,
-      text: postText,
-      image: selectedImage?.name,
-      video: selectedVideo?.name,
-    });
 
     try {
       const formData = new FormData();
       formData.append("token", token);
       formData.append("content", postText);
       formData.append("type", activeTab);
+      formData.append("visibility", activeTabEncap);
 
       if (activeTab === "image" && selectedImage) {
         formData.append("file", selectedImage);
@@ -50,14 +56,16 @@ export default function CreatePost() {
         body: formData,
       });
       const r = await res.json();
-      console.log(r);
+      
+      navigate('/home',{state: 'ok'})
     } catch (error) {
       console.log("FETCH ERROR : ", error);
     }
-    setPostText("");
-    setSelectedImage(null);
-    setSelectedVideo(null);
-    setActiveTab("text");
+      setPostText("");
+      setSelectedImage(null);
+      setSelectedVideo(null);
+      setActiveTab("text");
+
   };
 
  
@@ -138,6 +146,20 @@ export default function CreatePost() {
 
       {/* Submit Button */}
       <div className="submit-container">
+        
+        <ul className="encapsulation">
+          {EncapTypes.map((tab) => (
+          <button
+            key={tab.id}
+            onClick={() => setActiveTabEncap(tab.id)}
+            className={`tab-button ${activeTabEncap === tab.id ? "tab-button-active" : ""}`}
+          >
+            {tab.label}
+          </button>
+        ))}
+        </ul>
+
+
         <button
           onClick={handleSubmit}
           disabled={!postText.trim() && !selectedImage && !selectedVideo}
@@ -148,7 +170,8 @@ export default function CreatePost() {
           Post
         </button>
       </div>
-        </div>
+
+      </div>
 
     </div>
   );

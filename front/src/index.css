@@ -20,6 +20,7 @@
   --aqua-600: #00bfa6;
   --aqua-500: #00bfa6;
   --bblue: #1877f2;
+  --bblue-2: #276fce;
   --white-blue:#eff6ff;
 
   /* Semantic Colors */
@@ -254,12 +255,15 @@ textarea,
 }
 
 .btn-primary {
-  background-color: var(--aqua-700);
+  background-color: var(--bblue);
   color: var(--text-on-primary);
+}
+.unfollow{
+  background-color: red;
 }
 
 .btn-primary:hover {
-  background-color: var(--aqua-600);
+  background-color: var(--bblue-2);
   transform: translateY(-2px);
   box-shadow: var(--shadow-sm);
 }
@@ -1078,7 +1082,9 @@ background-color: #dbeafe;}
 .submit-container {
   margin-top: 1rem;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  color: var(--gray-600);
+  gap: 20px;
 }
 
 .post-button {
@@ -1108,6 +1114,14 @@ background-color: #dbeafe;}
 .post-button-disabled:hover {
   background-color: var(--gray-100);
 }
+.encapsulation{
+  flex-grow: 1;
+  display:flex;
+  justify-content:space-around;
+  cursor:pointer;
+  list-style:none;
+}
+
 /* drop down */
 .dropbtn {
   border-radius: 50%;

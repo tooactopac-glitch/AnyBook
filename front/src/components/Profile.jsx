@@ -1,5 +1,3 @@
-import { IoLogoGithub } from "react-icons/io";
-import { GrLinkedin } from "react-icons/gr";
 import { FaGitlab, FaSpinner } from "react-icons/fa6";
 import { FaCamera } from "react-icons/fa";
 import { MyContext } from "../context";
@@ -11,8 +9,10 @@ import { useParams } from "react-router-dom";
 export default function Profile() {
   const { BASE_URL,token } = useContext(MyContext);
   const [user,setUser] = useState(null);
+  const [currentUser,setCurrentUser] = useState(null)
+  const [isfollow,setIsFollow] = useState(null);
+  const [followersCount,setFollowersCount] = useState(null);
   const {id} = useParams();
-  // const token = localStorage.getItem('token');
 
  useEffect(() => {
    
@@ -28,7 +28,13 @@ export default function Profile() {
             }
           );
           const usr = await res.json();
-          setUser(id == "me" ? usr.mydata : usr);
+          const fetchedUser = id === "me" ? usr.mydata : usr.resultat;
+          setUser(fetchedUser);
+          setCurrentUser(usr.me);
+
+          setFollowersCount(fetchedUser.followers.length);
+          setIsFollow(fetchedUser.followers.includes(usr.me)); 
+
         } catch (error) {
           console.log('FETCH ERROR : ',error)
         }
@@ -38,13 +44,41 @@ export default function Profile() {
    
  }, [])
 
+
+
+const handleFollowUnFollow = () => {
+    const newIsFollow = !isfollow; 
+    setIsFollow(newIsFollow); 
+
+    const fetchFollowUnfollow = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/api/follow`, {
+          method: "post",
+          headers: {
+            "Authorization": `bearer ${token}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ isfollow: newIsFollow, target: user._id }) 
+        });
+        const r = await res.json();
+        setIsFollow(r); 
+        setFollowersCount(prev => prev + (r ? 1 : -1));
+      } catch (error) {
+        console.log('FETCH ERROR : ', error);
+        setIsFollow(isfollow); 
+      }
+    };
+
+    fetchFollowUnfollow();
+  };
+
+
  if(!user) return (<div className="profile-container">
     <div style={{height:'100%',width:'100%',display:'flex',justifyContent:'center',alignItems:"center"}}>
 <FaSpinner className="spinner"/>
     </div>
  </div>)
  
-  
   return (
     <div className="profile-container">
 
@@ -53,7 +87,7 @@ export default function Profile() {
         <div className="profile-top">
           <div className="profile-img">
             <img
-              src={user.avatar != "" ? `${BASE_URL}${user?.avatar}` : 'logo192.png'}
+              src={user.avatar != "" ? `${BASE_URL}${user?.avatar}` : "logo192.png"}
               alt="img"
             />
             <FaCamera size="20" className="change-image"/>
@@ -65,13 +99,20 @@ export default function Profile() {
             <p className="profile-name">{user.first_name} {user.last_name}</p>
             <p>{user.email}</p>
             <div className="profile-stats">
-              209 Post | 192K Followers | 2k Following
+              209 Post | {followersCount} Followers | {user.following.length} Following
               <br />
             </div>
           </div>
+
+          {/* follow buttons */}
+          { user._id === currentUser ? '' : 
+          <button className={`btn-primary ${isfollow ? 'unfollow' : ''}`} onClick={handleFollowUnFollow}>{isfollow ? "Unfollow" :"Follow"}</button>
+          }
         </div>
 
-        <div className="profile-bottom">
+
+
+        {/* <div className="profile-bottom">
           <hr />
 
           <span className="about-title">About me</span>
@@ -85,7 +126,7 @@ export default function Profile() {
             <GrLinkedin />
             <FaGitlab />
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

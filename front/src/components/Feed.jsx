@@ -4,9 +4,6 @@ import Post from "./Post";
 export default function Feed() {
     const { posts, setPosts } = useOutletContext();
 
-
-    console.log(posts)
-
   return (
     <>
         <div className='home-main'>
